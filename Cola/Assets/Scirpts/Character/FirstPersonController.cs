@@ -26,6 +26,10 @@ public class FirstPersonController : MonoBehaviour
     [Header("UI 설정")]
     public Slider staminaSlider; // 스태미나 바 UI
 
+    // ▼▼▼ 여기에 새로운 변수를 추가합니다 ▼▼▼
+    [HideInInspector] // 인스펙터 창에서는 보이지 않게 숨김
+    public bool lockMovement = false; // 외부에서 움직임을 잠글 수 있는 변수
+
     // 내부 변수
     private CharacterController characterController;
     private Vector3 playerVelocity;
@@ -65,23 +69,27 @@ public class FirstPersonController : MonoBehaviour
             playerVelocity.y = -2f; // 안정적으로 땅에 붙어있도록
         }
 
-        float moveX = Input.GetAxis("Horizontal");
-        float moveZ = Input.GetAxis("Vertical");
-
-        // 달리기 가능 여부 확인
-        bool isRunning = Input.GetKey(KeyCode.LeftShift) && currentStamina > 0;
-        float speed = isRunning ? runSpeed : walkSpeed;
-
-        Vector3 move = transform.right * moveX + transform.forward * moveZ;
-        characterController.Move(move.normalized * speed * Time.deltaTime);
-
-        // 점프
-        if (Input.GetButtonDown("Jump") && isGrounded)
+        // 움직임이 잠겨있지 않을 때만 키보드 입력을 받습니다.
+        if (!lockMovement)
         {
-            playerVelocity.y = Mathf.Sqrt(jumpHeight * -2.0f * gravity);
+            float moveX = Input.GetAxis("Horizontal");
+            float moveZ = Input.GetAxis("Vertical");
+
+            // 달리기 가능 여부 확인
+            bool isRunning = Input.GetKey(KeyCode.LeftShift) && currentStamina > 0;
+            float speed = isRunning ? runSpeed : walkSpeed;
+
+            Vector3 move = transform.right * moveX + transform.forward * moveZ;
+            characterController.Move(move.normalized * speed * Time.deltaTime);
+
+            // 점프
+            if (Input.GetButtonDown("Jump") && isGrounded)
+            {
+                playerVelocity.y = Mathf.Sqrt(jumpHeight * -2.0f * gravity);
+            }
         }
 
-        // 중력 적용
+        // 중력 적용은 움직임 잠금과 상관없이 항상 실행됩니다.
         playerVelocity.y += gravity * Time.deltaTime;
         characterController.Move(playerVelocity * Time.deltaTime);
     }

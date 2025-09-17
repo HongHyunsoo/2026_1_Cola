@@ -24,8 +24,10 @@ public class GameManager : MonoBehaviour
     private bool warningShown = false; // 경고가 한 번만 표시되도록 하는 플래그
 
     [Header("연료(콜라) 설정")]
-    public float maxFuel = 100f;
+    public float maxFuel = 100f; // 최대량은 나중을 위해 남겨둬도 좋습니다.
     public float currentFuel = 0f;
+    // ▼▼▼ 이 부분을 Image에서 TextMeshProUGUI로 변경합니다 ▼▼▼
+    public TextMeshProUGUI fuelText; // 기존: public Image fuelGaugeImage;
     // 연료 게이지 UI는 PlayerInteraction이 아닌 GameManager가 직접 관리해야 합니다.
     // public Image fuelGaugeImage; <- 이 부분은 PlayerInteraction에서 삭제하고 여기에 연결해야 합니다.
 
@@ -56,6 +58,8 @@ public class GameManager : MonoBehaviour
         {
             warningText.gameObject.SetActive(false); // 시작할 때 경고 문구 숨기기
         }
+
+        UpdateFuelUI(); // 게임 시작 시 연료 UI도 초기화
     }
 
     void Update()
@@ -128,7 +132,15 @@ public class GameManager : MonoBehaviour
     {
         currentFuel += amount;
         currentFuel = Mathf.Clamp(currentFuel, 0, maxFuel);
-        // GameManager가 직접 연료 UI를 업데이트하도록 로직을 옮겨야 합니다.
-        // UpdateFuelGauge();
+        UpdateFuelUI(); // 이름이 바뀐 함수를 호출합니다.
+    }
+
+    void UpdateFuelUI()
+    {
+        if (fuelText != null)
+        {
+            // 소수점 둘째 자리까지 표시하고 뒤에 " L"를 붙입니다.
+            fuelText.text = currentFuel.ToString("F2") + " L";
+        }
     }
 }
