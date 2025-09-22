@@ -143,4 +143,16 @@ public class GameManager : MonoBehaviour
             fuelText.text = currentFuel.ToString("F2") + " L";
         }
     }
+
+    // 콜라(연료)를 잃는 함수
+    public void LoseFuel(float amount)
+    {
+        currentFuel -= amount;
+        if (currentFuel < 0)
+        {
+            currentFuel = 0;
+        }
+        UpdateFuelUI();
+        Debug.Log(amount + "L의 콜라를 뺏겼습니다!");
+    }
 }

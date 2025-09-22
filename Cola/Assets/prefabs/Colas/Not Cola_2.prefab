@@ -148,3 +148,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a136ea631c268a54e8b7256d60246d20, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  interactionPrompt: "\uC0C1\uD638\uC791\uC6A9 (E)"
+  drinkType: 1
+  fuelAmount: 0

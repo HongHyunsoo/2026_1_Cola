@@ -130,22 +130,4 @@ public class PlayerInteraction : MonoBehaviour
         }
     }
 
-    // 다른 Trigger Collider에 들어갔을 때 호출됨
-    private void OnTriggerEnter(Collider other)
-    {
-        // "Cola" 태그를 가진 오브젝트라면
-        if (other.CompareTag("Cola"))
-        {
-            // GameManager에게 연료를 추가하라고 보고
-            GameManager.instance.AddFuel(0.355f); // 예시: 캔 콜라 하나의 양
-            // 잡은 콜라는 즉시 파괴
-            Destroy(other.gameObject);
-        }
-        // "NotCola" 태그를 가진 오브젝트라면
-        else if (other.CompareTag("NotCola"))
-        {
-            // 그냥 파괴만 함 (패널티를 넣을 수도 있음)
-            Destroy(other.gameObject);
-        }
     }
-}
