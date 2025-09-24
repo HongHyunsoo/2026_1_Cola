@@ -11,10 +11,11 @@ public class PlayerInteraction : MonoBehaviour
     public LayerMask interactionLayer;     // 상호작용할 레이어
     private Camera playerCamera;
 
-    [Header("콜라 (연료) 설정")]
-    public float maxFuel = 99999f; // 최대 연료량
-    public float currentFuel = 0f;
-    public Image fuelGaugeImage; // 연료 게이지 UI 이미지
+    //[Header("콜라 (연료) 설정")]
+    //public float maxFuel = 99999f; // 최대 연료량
+    //public float currentFuel = 0f;
+    //public Image fuelGaugeImage; // 연료 게이지 UI 이미지
+
 
     [Header("인벤토리 설정")]
     public GameObject[] inventorySlotsUI; // 인벤토리 슬롯 UI (배경)
@@ -80,14 +81,7 @@ public class PlayerInteraction : MonoBehaviour
         }
     }
 
-    // 콜라(연료) 추가 함수
-    public void AddFuel(float amount)
-    {
-        currentFuel += amount;
-        currentFuel = Mathf.Clamp(currentFuel, 0, maxFuel);
-        UpdateFuelGauge();
-        Debug.Log("연료 획득! 현재 연료: " + currentFuel);
-    }
+   
 
     // 아이템 추가 함수
     public bool AddItem(string itemName, Sprite icon)
@@ -107,14 +101,7 @@ public class PlayerInteraction : MonoBehaviour
     }
 
     // UI 업데이트
-    void UpdateFuelGauge()
-    {
-        if (fuelGaugeImage != null)
-        {
-            fuelGaugeImage.fillAmount = currentFuel / maxFuel;
-        }
-    }
-
+    
     void UpdateInventoryUI()
     {
         for (int i = 0; i < inventorySlotsUI.Length; i++)
